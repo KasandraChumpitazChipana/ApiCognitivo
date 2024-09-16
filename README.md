@@ -1,2 +1,2 @@
 # ApiCognitivo
-API de un Servicio Cognitivo
+Lo encontramos en la rama "developer".
