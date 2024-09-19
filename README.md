@@ -14,7 +14,7 @@ Esta guía mostrará cómo configurar y utilizar el API en Postman, permitiéndo
  - [Intellij Idea](https://www.jetbrains.com/idea/download/?section=windows)
  - [Mongodb](https://www.mongodb.com/es)
 
-## 1. Creación de nuestro GorqCloud:
+## 1. Creación de nuestro GroqCloud:
  - Crearemos nuestra cuenta con el correo Institucional:
  ![image](https://github.com/user-attachments/assets/1bde04fc-7258-4caf-8010-6d03912ba129)
  - Ya creada nuestra cuenta, nos dirigimos a la sección de Documentación de GorqCloud, donde podremos encontrar toda la información referente al uso del API:
