@@ -21,9 +21,12 @@ jobs:
           java-version: 21
           distribution: 'zulu'
       - name: Install Maven
-        run: sudo apt-get update && sudo apt-get install -y maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+          mvn -version
       - name: Verify Maven installation
-        run: mvn -version
+        run: echo $PATH
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with: 
