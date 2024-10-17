@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 21
-          distribution: 'zulu'  # Alternative distributions like 'adopt' or 'temurin' are also available
+          distribution: 'zulu'
 
       - name: Install Maven
         run: sudo apt-get update && sudo apt-get install -y maven
@@ -40,13 +40,13 @@ jobs:
 
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}  # Database URL environment variable
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}  # Database username environment variable
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}  # Database password environment variable
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
-          mvn -X verify \
+          mvn -B verify \
             -Dsonar.projectKey=KasandraChumpitazChipana_ApiCognitivo \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dspring.datasource.url=${{ secrets.DATABASE_URL }} \
