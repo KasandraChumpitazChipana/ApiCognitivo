@@ -1,0 +1,16 @@
+groqcloud:
+  api:
+    key: ${URL_CLOUD}
+    endpoint: ${URL_END}
+
+spring:
+  data:
+    mongodb:
+      uri: ${URL_MONGO}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+server:
+  port: 8085

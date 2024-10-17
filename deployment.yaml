@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-deployment
+  namespace: vallegrande
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice
+  template:
+    metadata:
+      labels:
+        app: microservice
+    spec:
+      containers:
+      - name: microservice
+        image: elsermanuel/elsermanueldocker
+        ports:
+        - containerPort: 8085
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+        env:
+        - name: URL_MONGO
+          valueFrom:
+            secretKeyRef:
+              name: microservice-secret
+              key: URL_MONGO
+        - name: URL_CLOUD
+          valueFrom:
+            secretKeyRef:
+              name: microservice-secret
+              key: URL_CLOUD
+        - name: URL_END
+          valueFrom:
+            configMapKeyRef:
+              name: microservice-config
+              key: URL_END
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom:
+            configMapKeyRef:
+              name: microservice-config
+              key: SPRING_PROFILES_ACTIVE
