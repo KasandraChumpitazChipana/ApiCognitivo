@@ -5,6 +5,7 @@ on:
       - Micro_Actions
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and analyze
@@ -12,33 +13,52 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for better relevancy of analysis
+          fetch-depth: 0
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
+
+      - name: Install Maven
+        run: sudo apt-get install -y maven
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}  # Database URL environment variable
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}  # Database username environment variable
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}  # Database password environment variable
+
+      - name: Verify Java version
+        run: java -version
+
+      - name: Verify Maven version
+        run: mvn -version
+
+      - name: Debug environment variables
         run: |
-          mvn -B verify \
+          echo "Database URL: ${{ secrets.DATABASE_URL }}"
+          echo "Database Username: ${{ secrets.DATABASE_USERNAME }}"
+          echo "Sonar Token: ${{ secrets.SONAR_TOKEN }}"
+
+      - name: Build and analyze with verbose logging
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        run: |
+          mvn -X verify \
             -Dsonar.projectKey=KasandraChumpitazChipana_ApiCognitivo \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dspring.datasource.url=${{ secrets.DATABASE_URL }} \
