@@ -3,7 +3,7 @@ name: SonarCloud
 on: 
   push: 
     branches: 
-      - Micro_Actions
+      - Micro_Action
   pull_request: 
     types: [opened, synchronize, reopened]
 
